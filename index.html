@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" ng-app>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="angular.min.js"></script>
+    <script src="javascript.js"></script>
+    <title>Afegir i eliminar alumnes a una taula amb AngularJS</title>
+</head>
+<body ng-controller="AlumnosController">
+    <h1>Añadir y eliminar alumnos en una tabla</h1>
+    <div class="formulario">
+        <h2>Añade los datos de tus alumnos</h2>
+
+        DNI: <input type="text" ng-model="nuevoAlumno.dni"/>
+        Nombre: <input type="text" ng-model="nuevoAlumno.nombre"/>
+        Apellidos: <input type="text" ng-model="nuevoAlumno.apellidos"/>
+        Correo electrónico: <input type="email" ng-model="nuevoAlumno.correo"/>
+        Nota: <input type="number" ng-model="nuevoAlumno.nota"/>
+
+        <button ng-click="Save()">Añadir alumno</button>
+        <button ng-click="Eliminar()">Eliminar tabla</button>
+    </div>
+
+    <div class="tabla">
+        <h1>Tabla de alumnos</h1>
+        <div class="todoslosalumnos" ng-repeat="alumno in alumnos">
+            <div class="nombre">
+                {{alumno.dni}} - {{alumno.nombre}} - {{alumno.apellidos}} - {{alumno.correo}} - {{alumno.nota}}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
