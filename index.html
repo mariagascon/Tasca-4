@@ -1,35 +1,94 @@
 <!DOCTYPE html>
-<html lang="en" ng-app>
+<html lang="en" ng-app="appAlumnos">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="angular.min.js"></script>
-    <script src="javascript.js"></script>
+    <link rel="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
     <title>Afegir i eliminar alumnes a una taula amb AngularJS</title>
 </head>
-<body ng-controller="AlumnosController">
-    <h1>Añadir y eliminar alumnos en una tabla</h1>
-    <div class="formulario">
-        <h2>Añade los datos de tus alumnos</h2>
+<body ng-controller="ctrlAlumnos">
+    <div class="container">
+            <h1>Añadir y eliminar alumnos en una tabla</h1>
+            <form ng-submit="insertar()">
+                <div>
+                    <label for="inputDni">DNI</label>
+                    <input type="text" id="inputDni" ng-model="new.dni" required>
+                </div>
+                <div>
+                    <label for="inputNombre">Nombre</label>
+                    <input type="text" id="inputNombre" ng-model="new.nombre" required>
+                </div>
+                <div>
+                    <label for="inputApellido">Apellidos</label>
+                    <input type="text" id="inputApellido" ng-model="new.apellido" required>
+                </div>
+                <div>
+                    <label for="inputEmail">Email</label>
+                    <input type="text" id="inputEmail" ng-model="new.email" required>
+                </div>
+                <div>
+                    <label for="inputNota">Nota</label>
+                    <input type="text" id="inputNota" ng-model="new.nota" required>
+                </div>
 
-        DNI: <input type="text" ng-model="nuevoAlumno.dni"/>
-        Nombre: <input type="text" ng-model="nuevoAlumno.nombre"/>
-        Apellidos: <input type="text" ng-model="nuevoAlumno.apellidos"/>
-        Correo electrónico: <input type="email" ng-model="nuevoAlumno.correo"/>
-        Nota: <input type="number" ng-model="nuevoAlumno.nota"/>
+                <button type="submit" class="btn btn-primary">insertar</button>
 
-        <button ng-click="Save()">Añadir alumno</button>
-        <button ng-click="Eliminar()">Eliminar tabla</button>
+            </form>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">DNI</th>
+                        <th scope="col">NOMBRE</th>
+                        <th scope="col">APELLIDOS</th>
+                        <th scope="col">EMAIL</th>
+                        <th scope="col">NOTA</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="alumno in tablalumnos">
+                             <td>{{ $index+1 }}</td>
+                             <td>{{ alumno.dni }}</td>
+                             <td>{{ alumno.nombre }}</td>
+                             <td>{{ alumno.apellido }}</td>
+                             <td>{{ alumno.email }}</td>
+                             <td>{{ alumno.nota }}</td>
+                             <td><button type="button" name="Eliminar" ng-click="eliminar($index)">Eliminar Fila</button></td>
+                        </tr>   
+                    </tbody>
+                </table>
     </div>
 
-    <div class="tabla">
-        <h1>Tabla de alumnos</h1>
-        <div class="todoslosalumnos" ng-repeat="alumno in alumnos">
-            <div class="nombre">
-                {{alumno.dni}} - {{alumno.nombre}} - {{alumno.apellidos}} - {{alumno.correo}} - {{alumno.nota}}
-            </div>
-        </div>
-    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+
+    <script>
+        //Variable que apunta a esta aplicación angular
+        var app = angular.module("appAlumnos",[]);
+        app.controller("ctrlAlumnos",function ($scope) {
+            $scope.tablalumnos = [];
+
+            $scope.insertar = function() {
+                $scope.tablalumnos.push({
+                    dni: validar($scope.new.dni),
+                    nombre: $scope.new.nombre,
+                    apellido: $scope.new.apellido,
+                    email: $scope.new.email,
+                    nota: $scope.new.nota
+                });
+                $scope.new = {};
+            }
+
+            $scope.eliminar = function(i) {
+                $scope.tablalumnos.splice(i,1);
+            }
+});
+
+        //Función que valida el DNI
+        function validar(dni) {
+            
+        }    
+    </script>
 </body>
 </html>
