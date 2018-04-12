@@ -4,61 +4,72 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <title>Afegir i eliminar alumnes a una taula amb AngularJS</title>
+
 </head>
 <body ng-controller="ctrlAlumnos">
-    <div class="container">
+    <form ng-submit="insertar()">
+        <div class="container" class="form-group row">
+
             <h1>Añadir y eliminar alumnos en una tabla</h1>
-            <form ng-submit="insertar()">
-                <div>
+            
+                <div class="col-sm-2 col-form-label">
                     <label for="inputDni">DNI</label>
                     <input type="text" id="inputDni" ng-model="new.dni" required>
                 </div>
-                <div>
+                <div class="col-sm-2 col-form-label">
                     <label for="inputNombre">Nombre</label>
                     <input type="text" id="inputNombre" ng-model="new.nombre" required>
                 </div>
-                <div>
+                <div class="col-sm-2 col-form-label">
                     <label for="inputApellido">Apellidos</label>
                     <input type="text" id="inputApellido" ng-model="new.apellido" required>
                 </div>
-                <div>
+                <div class="col-sm-2 col-form-label">
                     <label for="inputEmail">Email</label>
                     <input type="text" id="inputEmail" ng-model="new.email" required>
                 </div>
-                <div>
+                <div class="col-sm-2 col-form-label">
                     <label for="inputNota">Nota</label>
-                    <input type="text" id="inputNota" ng-model="new.nota" required>
+                    <input type="number" id="inputNota" ng-model="new.nota" required >
                 </div>
 
-                <button type="submit" class="btn btn-primary">insertar</button>
+                <br></br>
+                <br></br>
 
-            </form>
+                <div id="boton">
+                    <button type="submit" class="btn btn-primary">insertar</button>
+                </div>
 
-            <table>
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">DNI</th>
-                        <th scope="col">NOMBRE</th>
-                        <th scope="col">APELLIDOS</th>
-                        <th scope="col">EMAIL</th>
-                        <th scope="col">NOTA</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="alumno in tablalumnos">
-                             <td>{{ $index+1 }}</td>
-                             <td>{{ alumno.dni }}</td>
-                             <td>{{ alumno.nombre }}</td>
-                             <td>{{ alumno.apellido }}</td>
-                             <td>{{ alumno.email }}</td>
-                             <td>{{ alumno.nota }}</td>
-                             <td><button type="button" name="Eliminar" ng-click="eliminar($index)">Eliminar Fila</button></td>
-                        </tr>   
-                    </tbody>
-                </table>
+        </div>
+    </form>
+
+        <br></br>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">DNI</th>
+                    <th scope="col">NOMBRE</th>
+                    <th scope="col">APELLIDOS</th>
+                    <th scope="col">EMAIL</th>
+                    <th scope="col">NOTA</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="alumno in tablalumnos">
+                    <td>{{ $index+1 }}</td>
+                    <td>{{ alumno.dni }}</td>
+                    <td>{{ alumno.nombre }}</td>
+                    <td>{{ alumno.apellido }}</td>
+                    <td>{{ alumno.email }}</td>
+                    <td>{{ alumno.nota }}</td>
+                    <td><button type="button" name="Eliminar" ng-click="eliminar($index)" class="btn btn-danger">Eliminar Fila</button></td>
+                </tr>   
+            </tbody>
+        </table>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
@@ -70,13 +81,16 @@
             $scope.tablalumnos = [];
 
             $scope.insertar = function() {
-                $scope.tablalumnos.push({
-                    dni: validar($scope.new.dni),
-                    nombre: $scope.new.nombre,
-                    apellido: $scope.new.apellido,
-                    email: $scope.new.email,
-                    nota: $scope.new.nota
+                if (validar($scope.new.dni)) {
+                    $scope.tablalumnos.push({
+                        
+                        dni: $scope.new.dni,
+                        nombre: $scope.new.nombre,
+                        apellido: $scope.new.apellido,
+                        email: $scope.new.email,
+                        nota: $scope.new.nota
                 });
+                }
                 $scope.new = {};
             }
 
@@ -85,10 +99,23 @@
             }
 });
 
-        //Función que valida el DNI
-        function validar(dni) {
-            
-        }    
+    //Función que valida que el DNI introducido sea correcto. En caso de serlo lo introduce en la tabla, por el
+    //contrario salta un mensaje de error informándo de que el DNI no es correcto.
+    function validar(dni) {
+    
+        var numero = dni.substr(0, dni.length-1);
+        var letra = dni.substr(-1).toUpperCase();
+
+        var letrasacomprobar = ["T", "R", "W", "A", "G", "M", "Y", "F", "T", "D", "X", "B", "N", "J", "Z", "S", "Q", "V", "H", "L", "C", "K", "E", "T"] 
+        var letracomprobada = letrasacomprobar[numero%23];
+
+        if (letracomprobada==letra) {
+            return true;
+        } else {
+            alert("El DNI es incorrecto, vuelve a introducirlo");
+            return false;
+        }
+}  
     </script>
 </body>
 </html>
