@@ -81,8 +81,8 @@
             $scope.tablalumnos = [];
 
             $scope.insertar = function() {
-                if (validar($scope.new.dni)) {
-                    $scope.tablalumnos.push({
+                if (validar($scope.new.dni)) { //Se llama a la función validar para que compruebe, antes de la inserción,
+                    $scope.tablalumnos.push({  //si el dni introducido es válido
                         
                         dni: $scope.new.dni,
                         nombre: $scope.new.nombre,
@@ -94,7 +94,7 @@
                 $scope.new = {};
             }
 
-            $scope.eliminar = function(i) {
+            $scope.eliminar = function(i) { //Elimina una a una las filas insertadas
                 $scope.tablalumnos.splice(i,1);
             }
 });
